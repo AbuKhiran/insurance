@@ -13,11 +13,14 @@
         input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         .card { background: #fff; border: 1px solid #e1e8ed; padding: 15px; margin-bottom: 12px; border-radius: 8px; transition: 0.2s; }
         .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .card h3 { margin: 0 0 8px; color: #007bff; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
+        .card h3 { margin: 0 0 8px; color: #007bff; font-size: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
         .badge { font-size: 12px; background: #e9ecef; color: #495057; padding: 4px 8px; border-radius: 4px; font-weight: normal; }
         .details { font-size: 14px; color: #555; line-height: 1.6; }
         .details p { margin: 4px 0; }
         a { color: #28a745; text-decoration: none; font-weight: bold; }
+        .load-more { display: block; width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 20px; text-align: center; }
+        .load-more:hover { background: #0056b3; }
+        .note { font-size: 13px; color: #666; text-align: center; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -26,27 +29,35 @@
     <h2>دليل شبكة المقدمين الطبيين</h2>
     
     <div class="filters">
-        <select id="cityFilter" onchange="filterData()">
+        <select id="cityFilter" onchange="handleFilterChange()">
             <option value="">جميع المدن</option>
         </select>
-        <input type="text" id="searchInput" onkeyup="filterData()" placeholder="ابحث بالاسم، التخصص، العنوان، أو رقم الهاتف...">
+        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم، التخصص، العنوان، أو رقم الهاتف...">
     </div>
 
+    <div class="note" id="resultsCount"></div>
     <div id="results"><p style="text-align:center;">جاري تحميل البيانات...</p></div>
+    <button id="loadMoreBtn" class="load-more" style="display: none;" onclick="loadMoreResults()">عرض المزيد من النتائج</button>
 </div>
 
 <script>
     let globalData = [];
+    let filteredData = [];
+    let displayedCount = 0;
+    const pageSize = 30; // عرض 30 نتيجة فقط في كل مرة لمنع تجميد المتصفح
+    let searchTimeout = null;
 
+    // جلب البيانات مرة واحدة وتخزينها في الذاكرة
     fetch('database.json')
         .then(response => response.json())
         .then(data => {
             globalData = data;
+            filteredData = data;
             populateCities();
-            displayResults(globalData);
+            renderResults(true);
         })
         .catch(err => {
-            document.getElementById('results').innerHTML = "<p style='text-align:center; color:red;'>عذراً، يرجى رفع ملف الـ Excel لأول مرة لتوليد قاعدة البيانات.</p>";
+            document.getElementById('results').innerHTML = "<p style='text-align:center; color:red;'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح.</p>";
         });
 
     function populateCities() {
@@ -60,35 +71,62 @@
         });
     }
 
+    // استخدام Debouncing لتأخير البحث جزءاً من الثانية أثناء الكتابة لضمان سلاسة الحركة
+    function handleSearchInput() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            filterData();
+        }, 200);
+    }
+
+    function handleFilterChange() {
+        filterData();
+    }
+
     function filterData() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const selectedCity = document.getElementById('cityFilter').value;
 
-        const filtered = globalData.filter(item => {
+        filteredData = globalData.filter(item => {
             const matchesCity = selectedCity === "" || item.city === selectedCity;
-            const matchesQuery = item.name.toLowerCase().includes(query) || 
-                                 item.address.toLowerCase().includes(query) || 
-                                 item.specialty.toLowerCase().includes(query) ||
-                                 item.category.toLowerCase().includes(query) ||
-                                 item.phone.includes(query) || 
-                                 item.mobile.includes(query);
-            return matchesCity && matchesQuery;
+            if (!matchesCity) return false;
+            
+            if (query === "") return true;
+
+            return item.name.toLowerCase().includes(query) || 
+                   item.address.toLowerCase().includes(query) || 
+                   item.specialty.toLowerCase().includes(query) ||
+                   item.category.toLowerCase().includes(query) ||
+                   item.phone.includes(query) || 
+                   item.mobile.includes(query);
         });
 
-        displayResults(filtered);
+        renderResults(true);
     }
 
-    function displayResults(data) {
+    function renderResults(reset = false) {
         const container = document.getElementById('results');
-        container.innerHTML = "";
-        
-        if(data.length === 0) {
+        const countContainer = document.getElementById('resultsCount');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+        if (reset) {
+            container.innerHTML = "";
+            displayedCount = 0;
+        }
+
+        countContainer.innerHTML = `عدد النتائج المطابقة: <strong>${filteredData.length}</strong>`;
+
+        if (filteredData.length === 0) {
             container.innerHTML = "<p style='text-align:center;'>لا توجد نتائج مطابقة للبحث.</p>";
+            loadMoreBtn.style.display = "none";
             return;
         }
 
-        data.forEach(item => {
-            container.innerHTML += `
+        const nextBatch = filteredData.slice(displayedCount, displayedCount + pageSize);
+        let htmlContent = "";
+
+        nextBatch.forEach(item => {
+            htmlContent += `
                 <div class="card">
                     <h3>${item.name} <span class="badge">${item.city} | ${item.specialty}</span></h3>
                     <div class="details">
@@ -99,6 +137,25 @@
                 </div>
             `;
         });
+
+        if (reset) {
+            container.innerHTML = htmlContent;
+        } else {
+            container.innerHTML += htmlContent;
+        }
+
+        displayedCount += nextBatch.length;
+
+        // إظهار أو إخفاء زر "عرض المزيد"
+        if (displayedCount < filteredData.length) {
+            loadMoreBtn.style.display = "block";
+        } else {
+            loadMoreBtn.style.display = "none";
+        }
+    }
+
+    function loadMoreResults() {
+        renderResults(false);
     }
 </script>
 
