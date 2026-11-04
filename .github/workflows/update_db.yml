@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'Globmed.xlsx'
-  workflow_dispatch: # يتيح تشغيل الروبوت يدوياً بضغطة زر
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,37 +28,48 @@ jobs:
           python -c "
           import pandas as pd
           import json
+          import re
+
+          def clean_str(val):
+              if pd.isna(val):
+                  return ''
+              # إزالة المسافات الزائدة والمتعددة بين الحروف والكلمات
+              s = str(val).strip()
+              s = re.sub(r'\s+', ' ', s)
+              return s
 
           xls = pd.ExcelFile('Globmed.xlsx')
           all_data = []
 
           for city in xls.sheet_names:
+              clean_city = clean_str(city)
               df = pd.read_excel('Globmed.xlsx', sheet_name=city, header=None)
               current_category = 'عام'
               current_specialty = 'عام'
               
               for index, row in df.iterrows():
-                  col0 = str(row.iloc[0]).strip() if pd.notna(row.iloc[0]) else ''
-                  col1 = str(row.iloc[1]).strip() if pd.notna(row.iloc[1]) else ''
-                  col2 = str(row.iloc[2]).strip() if pd.notna(row.iloc[2]) else ''
-                  col3 = str(row.iloc[3]).strip() if pd.notna(row.iloc[3]) else ''
+                  col0 = clean_str(row.iloc[0]) if len(row) > 0 else ''
+                  col1 = clean_str(row.iloc[1]) if len(row) > 1 else ''
+                  col2 = clean_str(row.iloc[2]) if len(row) > 2 else ''
+                  col3 = clean_str(row.iloc[3]) if len(row) > 3 else ''
                   
-                  if col0 and (col1 == '' or col1 == 'nan') and col2 == '' and col3 == '':
+                  if col0 and not col1 and not col2 and not col3:
                       current_category = col0
+                      current_specialty = 'عام'
                       continue
                       
-                  if 'العنوان' in col1 or 'الهاتف' in col2:
+                  if 'العنوان' in col1 or 'الهاتف' in col2 or 'الجوال' in col3:
                       continue
                       
-                  if col0 and col0 != 'nan':
-                      if col1 == '' and col2 == '' and col3 == '':
+                  if col0:
+                      if not col1 and not col2 and not col3:
                           current_specialty = col0
                           continue
                       
                       record = {
-                          'city': city,
+                          'city': clean_city,
                           'category': current_category,
-                          'specialty': current_specialty,
+                          'specialty': current_specialty if current_specialty else 'عام',
                           'name': col0,
                           'address': col1 if col1 != 'nan' else '',
                           'phone': col2 if col2 != 'nan' else '',
@@ -66,9 +77,18 @@ jobs:
                       }
                       all_data.append(record)
 
+          # إزالة السجلات المكررة بالكامل لضمان النظافة التامة
+          unique_data = []
+          seen = set()
+          for item in all_data:
+              identifier = (item['city'], item['name'], item['address'])
+              if identifier not in seen:
+                seen.add(identifier)
+                unique_data.append(item)
+
           with open('database.json', 'w', encoding='utf-8') as f:
-              json.dump(all_data, f, ensure_ascii=False, indent=4)
-          print(f'Processed {len(all_data)} records.')
+              json.dump(unique_data, f, ensure_ascii=False, indent=4)
+          print(f'Processed {len(unique_data)} unique records.')
           "
 
       - name: Commit and push database.json
@@ -76,5 +96,5 @@ jobs:
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
           git add database.json
-          git commit -m 'Auto-update database from new Excel file' || exit 0
+          git commit -m 'Auto-update and clean database from Excel' || exit 0
           git push
