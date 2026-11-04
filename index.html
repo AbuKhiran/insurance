@@ -3,80 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الشبكة الطبية</title>
+    <title>دليل الشبكة الطبية الاحترافي</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2 { color: #2c3e50; text-align: center; }
-        .filters { display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 20px; }
-        @media (max-width: 600px) { .filters { grid-template-columns: 1fr; } }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        .card { background: #fff; border: 1px solid #e1e8ed; padding: 15px; margin-bottom: 12px; border-radius: 8px; transition: 0.2s; }
-        .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .card h3 { margin: 0 0 8px; color: #007bff; font-size: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px; }
-        .badge { font-size: 12px; background: #e9ecef; color: #495057; padding: 4px 8px; border-radius: 4px; font-weight: normal; }
-        .details { font-size: 14px; color: #555; line-height: 1.6; }
-        .details p { margin: 4px 0; }
-        a { color: #28a745; text-decoration: none; font-weight: bold; }
-        .load-more { display: block; width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 20px; text-align: center; }
-        .load-more:hover { background: #0056b3; }
-        .note { font-size: 13px; color: #666; text-align: center; margin-bottom: 10px; }
+        :root {
+            --primary-color: #0284c7;
+            --primary-hover: #0369a1;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        header { text-align: center; margin-bottom: 30px; }
+        header h2 { color: var(--text-main); font-size: 26px; margin-bottom: 8px; }
+        header p { color: var(--text-muted); font-size: 14px; margin: 0; }
+        
+        .filters-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #fff; outline: none; transition: 0.2s; }
+        input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+        
+        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        
+        .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .icon-badge { width: 42px; height: 42px; border-radius: 10px; background: #e0f2fe; color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .title-area h3 { margin: 0 0 4px; font-size: 16px; color: var(--text-main); font-weight: 700; }
+        .badges-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge { font-size: 11px; background: #f1f5f9; color: var(--text-muted); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        .badge.special { background: #dcfce7; color: #166534; }
+        
+        .card-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 8px; }
+        .card-body p { margin: 4px 0; }
+        
+        .actions { display: flex; gap: 8px; margin-top: 15px; }
+        .btn-call { flex: 1; background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 8px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 600; text-decoration: none; transition: 0.2s; }
+        .btn-call:hover { background: #dcfce7; }
+        .btn-disabled { flex: 1; background: #f8fafc; color: #cbd5e1; border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; text-align: center; font-size: 13px; cursor: not-allowed; }
+        
+        .load-more { display: block; width: 100%; max-width: 250px; margin: 30px auto; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center; }
+        .load-more:hover { background: var(--primary-hover); }
+        .no-results { text-align: center; padding: 40px; color: var(--text-muted); background: white; border-radius: 12px; grid-column: 1 / -1; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>دليل شبكة المقدمين الطبيين</h2>
+    <header>
+        <h2>دليل الشبكة الطبية</h2>
+        <p>ابحث عن الأطباء، المستشفيات، الصيدليات والمراكز الطبية بكل سهولة</p>
+    </header>
     
-    <div class="filters">
+    <div class="filters-box">
         <select id="cityFilter" onchange="handleFilterChange()">
             <option value="">جميع المدن</option>
         </select>
-        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم، التخصص، العنوان، أو رقم الهاتف...">
+        <select id="categoryFilter" onchange="handleFilterChange()">
+            <option value="">جميع التصنيفات</option>
+        </select>
+        <select id="specialtyFilter" onchange="handleFilterChange()">
+            <option value="">جميع التخصصات</option>
+        </select>
+        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم، العنوان، أو رقم الهاتف...">
     </div>
 
-    <div class="note" id="resultsCount"></div>
-    <div id="results"><p style="text-align:center;">جاري تحميل البيانات...</p></div>
-    <button id="loadMoreBtn" class="load-more" style="display: none;" onclick="loadMoreResults()">عرض المزيد من النتائج</button>
+    <div class="results-meta">
+        <span id="resultsCount">جاري التحميل...</span>
+    </div>
+
+    <div id="resultsGrid" class="grid"></div>
+    <button id="loadMoreBtn" class="load-more" style="display: none;" onclick="loadMoreResults()">عرض المزيد</button>
 </div>
 
 <script>
     let globalData = [];
     let filteredData = [];
     let displayedCount = 0;
-    const pageSize = 30; // عرض 30 نتيجة فقط في كل مرة لمنع تجميد المتصفح
+    const pageSize = 24;
     let searchTimeout = null;
 
-    // جلب البيانات مرة واحدة وتخزينها في الذاكرة
     fetch('database.json')
         .then(response => response.json())
         .then(data => {
             globalData = data;
             filteredData = data;
-            populateCities();
+            populateDropdowns();
             renderResults(true);
         })
         .catch(err => {
-            document.getElementById('results').innerHTML = "<p style='text-align:center; color:red;'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح.</p>";
+            document.getElementById('resultsGrid').innerHTML = "<div class='no-results'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح.</div>";
         });
 
-    function populateCities() {
+    function populateDropdowns() {
         const cities = [...new Set(globalData.map(item => item.city))].sort();
-        const citySelect = document.getElementById('cityFilter');
-        cities.forEach(city => {
-            let opt = document.createElement('option');
-            opt.value = city;
-            opt.innerHTML = city;
-            citySelect.appendChild(opt);
+        const categories = [...new Set(globalData.map(item => item.category))].sort();
+        const specialties = [...new Set(globalData.map(item => item.specialty))].sort();
+
+        fillSelect('cityFilter', cities, 'جميع المدن');
+        fillSelect('categoryFilter', categories, 'جميع التصنيفات');
+        fillSelect('specialtyFilter', specialties, 'جميع التخصصات');
+    }
+
+    function fillSelect(elementId, items, defaultText) {
+        const select = document.getElementById(elementId);
+        select.innerHTML = `<option value="">${defaultText}</option>`;
+        items.forEach(item => {
+            if(item && item !== 'عام') {
+                let opt = document.createElement('option');
+                opt.value = item;
+                opt.innerHTML = item;
+                select.appendChild(opt);
+            }
         });
     }
 
-    // استخدام Debouncing لتأخير البحث جزءاً من الثانية أثناء الكتابة لضمان سلاسة الحركة
     function handleSearchInput() {
         clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            filterData();
-        }, 200);
+        searchTimeout = setTimeout(() => filterData(), 200);
     }
 
     function handleFilterChange() {
@@ -86,10 +133,13 @@
     function filterData() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const selectedCity = document.getElementById('cityFilter').value;
+        const selectedCategory = document.getElementById('categoryFilter').value;
+        const selectedSpecialty = document.getElementById('specialtyFilter').value;
 
         filteredData = globalData.filter(item => {
-            const matchesCity = selectedCity === "" || item.city === selectedCity;
-            if (!matchesCity) return false;
+            if (selectedCity && item.city !== selectedCity) return false;
+            if (selectedCategory && item.category !== selectedCategory) return false;
+            if (selectedSpecialty && item.specialty !== selectedSpecialty) return false;
             
             if (query === "") return true;
 
@@ -104,20 +154,39 @@
         renderResults(true);
     }
 
+    function getIconAndBadge(category, specialty) {
+        let icon = "🏥";
+        let isPediatric = specialty.includes('أطفال') || specialty.includes('الاطفال');
+        
+        if (category.includes('أطباء') || category.includes('طبيب')) {
+            icon = "🩺";
+        } else if (category.includes('صيدلي') || category.includes('صيدليات')) {
+            icon = "💊";
+        } else if (category.includes('مستشفى') || category.includes('مستشفيات')) {
+            icon = "🏨";
+        } else if (category.includes('مختبر') || category.includes('تحاليل')) {
+            icon = "🔬";
+        } else if (category.includes('بصريات') || category.includes('نظارات')) {
+            icon = "👓";
+        }
+
+        return { icon, isPediatric };
+    }
+
     function renderResults(reset = false) {
-        const container = document.getElementById('results');
+        const grid = document.getElementById('resultsGrid');
         const countContainer = document.getElementById('resultsCount');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
 
         if (reset) {
-            container.innerHTML = "";
+            grid.innerHTML = "";
             displayedCount = 0;
         }
 
-        countContainer.innerHTML = `عدد النتائج المطابقة: <strong>${filteredData.length}</strong>`;
+        countContainer.innerHTML = `النتائج المطابقة: <strong>${filteredData.length}</strong> مقدم خدمة`;
 
         if (filteredData.length === 0) {
-            container.innerHTML = "<p style='text-align:center;'>لا توجد نتائج مطابقة للبحث.</p>";
+            grid.innerHTML = "<div class='no-results'>لا توجد نتائج مطابقة لبحثك.</div>";
             loadMoreBtn.style.display = "none";
             return;
         }
@@ -126,27 +195,45 @@
         let htmlContent = "";
 
         nextBatch.forEach(item => {
+            const { icon, isPediatric } = getIconAndBadge(item.category, item.specialty);
+            const contactNumber = item.mobile || item.phone;
+
             htmlContent += `
                 <div class="card">
-                    <h3>${item.name} <span class="badge">${item.city} | ${item.specialty}</span></h3>
-                    <div class="details">
-                        <p><strong>التصنيف:</strong> ${item.category}</p>
-                        <p><strong>العنوان:</strong> ${item.address || 'غير متوفر'}</p>
-                        <p><strong>هاتف:</strong> ${item.phone || 'لا يوجد'} | <strong>جوال:</strong> <a href="tel:${item.mobile}">${item.mobile || 'لا يوجد'}</a></p>
+                    <div>
+                        <div class="card-header">
+                            <div class="icon-badge">${icon}</div>
+                            <div class="title-area">
+                                <h3>${item.name}</h3>
+                                <div class="badges-row">
+                                    <span class="badge">${item.city}</span>
+                                    <span class="badge">${item.category}</span>
+                                    ${item.specialty && item.specialty !== 'عام' ? `<span class="badge">${item.specialty}</span>` : ''}
+                                    ${isPediatric ? `<span class="badge special">👶 أطفال</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>العنوان:</strong> ${item.address || 'العنوان غير متوفر'}</p>
+                            <p><strong>هاتف:</strong> ${item.phone || 'لا يوجد'}</p>
+                            <p><strong>جوال:</strong> ${item.mobile || 'لا يوجد'}</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        ${contactNumber ? `<a href="tel:${contactNumber}" class="btn-call">📞 اتصال مباشر</a>` : `<span class="btn-disabled">لا يوجد رقم</span>`}
                     </div>
                 </div>
             `;
         });
 
         if (reset) {
-            container.innerHTML = htmlContent;
+            grid.innerHTML = htmlContent;
         } else {
-            container.innerHTML += htmlContent;
+            grid.innerHTML += htmlContent;
         }
 
         displayedCount += nextBatch.length;
 
-        // إظهار أو إخفاء زر "عرض المزيد"
         if (displayedCount < filteredData.length) {
             loadMoreBtn.style.display = "block";
         } else {
