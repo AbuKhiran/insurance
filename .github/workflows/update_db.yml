@@ -1,0 +1,79 @@
+name: Update Database Automatically
+
+on:
+  push:
+    paths:
+      - 'Globmed.xlsx'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl
+
+      - name: Run Processing Script
+        run: |
+          python -c "
+          import pandas as pd
+          import json
+
+          xls = pd.ExcelFile('Globmed.xlsx')
+          all_data = []
+
+          for city in xls.sheet_names:
+              df = pd.read_excel('Globmed.xlsx', sheet_name=city, header=None)
+              current_category = 'عام'
+              current_specialty = 'عام'
+              
+              for index, row in df.iterrows():
+                  col0 = str(row.iloc[0]).strip() if pd.notna(row.iloc[0]) else ''
+                  col1 = str(row.iloc[1]).strip() if pd.notna(row.iloc[1]) else ''
+                  col2 = str(row.iloc[2]).strip() if pd.notna(row.iloc[2]) else ''
+                  col3 = str(row.iloc[3]).strip() if pd.notna(row.iloc[3]) else ''
+                  
+                  if col0 and (col1 == '' or col1 == 'nan') and col2 == '' and col3 == '':
+                      current_category = col0
+                      continue
+                      
+                  if 'العنوان' in col1 or 'الهاتف' in col2:
+                      continue
+                      
+                  if col0 and col0 != 'nan':
+                      if col1 == '' and col2 == '' and col3 == '':
+                          current_specialty = col0
+                          continue
+                      
+                      record = {
+                          'city': city,
+                          'category': current_category,
+                          'specialty': current_specialty,
+                          'name': col0,
+                          'address': col1 if col1 != 'nan' else '',
+                          'phone': col2 if col2 != 'nan' else '',
+                          'mobile': col3 if col3 != 'nan' else ''
+                      }
+                      all_data.append(record)
+
+          with open('database.json', 'w', encoding='utf-8') as f:
+              json.dump(all_data, f, ensure_ascii=False, indent=4)
+          print(f'Processed {len(all_data)} records.')
+          "
+
+      - name: Commit and push database.json
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add database.json
+          git commit -m 'Auto-update database from new Excel file' || exit 0
+          git push
