@@ -3,51 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الشبكة الطبية الاحترافي</title>
+    <title>دليل الشبكة الطبية المتطور</title>
     <style>
         :root {
-            --primary-color: #0284c7;
-            --primary-hover: #0369a1;
-            --bg-color: #f8fafc;
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #38bdf8;
+            --bg-main: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --border: #e2e8f0;
+            --radius: 14px;
         }
-        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        header { text-align: center; margin-bottom: 30px; }
-        header h2 { color: var(--text-main); font-size: 26px; margin-bottom: 8px; }
-        header p { color: var(--text-muted); font-size: 14px; margin: 0; }
+        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; }
         
-        .filters-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #fff; outline: none; transition: 0.2s; }
-        input:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+        header { text-align: center; margin-bottom: 35px; padding-top: 10px; }
+        header h2 { color: var(--text-main); font-size: 30px; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.5px; }
+        header p { color: var(--text-muted); font-size: 15px; margin: 0; }
         
-        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; color: var(--text-muted); font-weight: 500; }
+        .filters-container { background: white; padding: 24px; border-radius: var(--radius); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05); margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; border: 1px solid var(--border); }
+        .filter-group { display: flex; flex-direction: column; gap: 6px; }
+        .filter-group label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        input, select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; box-sizing: border-box; font-size: 14px; background: #fdfdfd; outline: none; transition: all 0.2s ease; color: var(--text-main); }
+        input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1); }
         
-        .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
-        .icon-badge { width: 42px; height: 42px; border-radius: 10px; background: #e0f2fe; color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .title-area h3 { margin: 0 0 4px; font-size: 16px; color: var(--text-main); font-weight: 700; }
-        .badges-row { display: flex; flex-wrap: wrap; gap: 6px; }
-        .badge { font-size: 11px; background: #f1f5f9; color: var(--text-muted); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
-        .badge.special { background: #dcfce7; color: #166534; }
+        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); font-weight: 600; padding: 0 5px; }
         
-        .card-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 8px; }
-        .card-body p { margin: 4px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 22px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.25s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--accent); }
         
-        .actions { display: flex; gap: 8px; margin-top: 15px; }
-        .btn-call { flex: 1; background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 8px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 600; text-decoration: none; transition: 0.2s; }
+        .card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+        .icon-box { width: 48px; height: 48px; border-radius: 12px; background: #e0f2fe; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .info-area { flex: 1; }
+        .info-area h3 { margin: 0 0 6px; font-size: 17px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
+        
+        .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .tag { font-size: 11px; background: #f1f5f9; color: var(--text-muted); padding: 3px 9px; border-radius: 6px; font-weight: 600; }
+        .tag.city { background: #e2e8f0; color: #334155; }
+        .tag.specialty { background: #e0f2fe; color: var(--primary-dark); }
+        .tag.sub-specialty { background: #dcfce7; color: #166534; }
+        
+        .card-body { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 4px; }
+        .card-body p { margin: 4px 0; display: flex; align-items: center; gap: 6px; }
+        
+        .card-footer { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--border); display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-size: 13px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-call { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
         .btn-call:hover { background: #dcfce7; }
-        .btn-disabled { flex: 1; background: #f8fafc; color: #cbd5e1; border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; text-align: center; font-size: 13px; cursor: not-allowed; }
+        .btn-disabled { background: #f8fafc; color: #cbd5e1; border: 1px solid var(--border); cursor: not-allowed; }
         
-        .load-more { display: block; width: 100%; max-width: 250px; margin: 30px auto; padding: 12px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center; }
-        .load-more:hover { background: var(--primary-hover); }
-        .no-results { text-align: center; padding: 40px; color: var(--text-muted); background: white; border-radius: 12px; grid-column: 1 / -1; }
+        .load-more { display: block; width: 100%; max-width: 280px; margin: 40px auto; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2); }
+        .load-more:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        
+        .no-results { text-align: center; padding: 50px; color: var(--text-muted); background: white; border-radius: var(--radius); grid-column: 1 / -1; border: 1px solid var(--border); font-size: 16px; }
     </style>
 </head>
 <body>
@@ -55,28 +67,40 @@
 <div class="container">
     <header>
         <h2>دليل الشبكة الطبية</h2>
-        <p>ابحث عن الأطباء، المستشفيات، الصيدليات والمراكز الطبية بكل سهولة</p>
+        <p>منصة بحث ذكية وسريعة للوصول إلى مقدمي الخدمات الطبية</p>
     </header>
     
-    <div class="filters-box">
-        <select id="cityFilter" onchange="handleFilterChange()">
-            <option value="">جميع المدن</option>
-        </select>
-        <select id="categoryFilter" onchange="handleFilterChange()">
-            <option value="">جميع التصنيفات</option>
-        </select>
-        <select id="specialtyFilter" onchange="handleFilterChange()">
-            <option value="">جميع التخصصات</option>
-        </select>
-        <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم، العنوان، أو رقم الهاتف...">
+    <div class="filters-container">
+        <div class="filter-group">
+            <label>المدينة</label>
+            <select id="cityFilter" onchange="handleFilterChange()">
+                <option value="">جميع المدن</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>التصنيف الرئيسي</label>
+            <select id="categoryFilter" onchange="handleFilterChange()">
+                <option value="">جميع التصنيفات</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>التخصص الفرعي / الفئة</label>
+            <select id="specialtyFilter" onchange="handleFilterChange()">
+                <option value="">جميع التخصصات</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>بحث حر</label>
+            <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم أو العنوان...">
+        </div>
     </div>
 
     <div class="results-meta">
-        <span id="resultsCount">جاري التحميل...</span>
+        <span id="resultsCount">جاري تحميل البيانات...</span>
     </div>
 
     <div id="resultsGrid" class="grid"></div>
-    <button id="loadMoreBtn" class="load-more" style="display: none;" onclick="loadMoreResults()">عرض المزيد</button>
+    <button id="loadMoreBtn" class="load-more" style="display: none;" onclick="loadMoreResults()">عرض المزيد من النتائج</button>
 </div>
 
 <script>
@@ -86,11 +110,27 @@
     const pageSize = 24;
     let searchTimeout = null;
 
+    // دالة لتنظيف وتوحيد النصوص وإزالة المسافات الزائدة
+    function cleanText(text) {
+        if (!text) return "";
+        return text.replace(/\s+/g, ' ').trim();
+    }
+
     fetch('database.json')
         .then(response => response.json())
-        .then(data => {
-            globalData = data;
-            filteredData = data;
+        .then(rawdata => {
+            // تنظيف البيانات عند التحميل لمنع التكرار الناجم عن المسافات الفاصلة
+            globalData = rawdata.map(item => ({
+                city: cleanText(item.city),
+                category: cleanText(item.category),
+                specialty: cleanText(item.specialty),
+                name: cleanText(item.name),
+                address: cleanText(item.address),
+                phone: cleanText(item.phone),
+                mobile: cleanText(item.mobile)
+            }));
+            
+            filteredData = globalData;
             populateDropdowns();
             renderResults(true);
         })
@@ -99,9 +139,9 @@
         });
 
     function populateDropdowns() {
-        const cities = [...new Set(globalData.map(item => item.city))].sort();
-        const categories = [...new Set(globalData.map(item => item.category))].sort();
-        const specialties = [...new Set(globalData.map(item => item.specialty))].sort();
+        const cities = [...new Set(globalData.map(item => item.city))].filter(Boolean).sort();
+        const categories = [...new Set(globalData.map(item => item.category))].filter(Boolean).sort();
+        const specialties = [...new Set(globalData.map(item => item.specialty))].filter(Boolean).sort();
 
         fillSelect('cityFilter', cities, 'جميع المدن');
         fillSelect('categoryFilter', categories, 'جميع التصنيفات');
@@ -154,23 +194,35 @@
         renderResults(true);
     }
 
-    function getIconAndBadge(category, specialty) {
+    function getCardMeta(category, specialty) {
         let icon = "🏥";
-        let isPediatric = specialty.includes('أطفال') || specialty.includes('الاطفال');
+        let subTag = "";
         
-        if (category.includes('أطباء') || category.includes('طبيب')) {
+        const lowerCat = category.toLowerCase();
+        const lowerSpec = specialty.toLowerCase();
+
+        if (lowerCat.includes('أطباء') || lowerCat.includes('طبيب') || lowerCat.includes('الاطباء')) {
             icon = "🩺";
-        } else if (category.includes('صيدلي') || category.includes('صيدليات')) {
+        } else if (lowerCat.includes('صيدلي') || lowerCat.includes('صيدليات')) {
             icon = "💊";
-        } else if (category.includes('مستشفى') || category.includes('مستشفيات')) {
+        } else if (lowerCat.includes('مستشفى') || lowerCat.includes('مستشفيات')) {
             icon = "🏨";
-        } else if (category.includes('مختبر') || category.includes('تحاليل')) {
+        } else if (lowerCat.includes('مختبر') || lowerCat.includes('تحاليل')) {
             icon = "🔬";
-        } else if (category.includes('بصريات') || category.includes('نظارات')) {
+        } else if (lowerCat.includes('بصريات') || lowerCat.includes('نظارات')) {
             icon = "👓";
         }
 
-        return { icon, isPediatric };
+        // كشف التخصصات الفرعية الحساسة مثل أطفال أو نساء
+        if (lowerSpec.includes('أطفال') || lowerSpec.includes('الاطفال')) {
+            subTag = "👶 أطفال";
+        } else if (lowerSpec.includes('نساء') || lowerSpec.includes('توليد')) {
+            subTag = "👩‍🍼 نساء وولادة";
+        } else if (lowerSpec.includes('أسنان') || lowerSpec.includes('الاسنان')) {
+            subTag = "🦷 أسنان";
+        }
+
+        return { icon, subTag };
     }
 
     function renderResults(reset = false) {
@@ -183,7 +235,7 @@
             displayedCount = 0;
         }
 
-        countContainer.innerHTML = `النتائج المطابقة: <strong>${filteredData.length}</strong> مقدم خدمة`;
+        countContainer.innerHTML = `عدد النتائج المطابقة: <strong>${filteredData.length}</strong>`;
 
         if (filteredData.length === 0) {
             grid.innerHTML = "<div class='no-results'>لا توجد نتائج مطابقة لبحثك.</div>";
@@ -195,32 +247,32 @@
         let htmlContent = "";
 
         nextBatch.forEach(item => {
-            const { icon, isPediatric } = getIconAndBadge(item.category, item.specialty);
+            const { icon, subTag } = getCardMeta(item.category, item.specialty);
             const contactNumber = item.mobile || item.phone;
 
             htmlContent += `
                 <div class="card">
                     <div>
                         <div class="card-header">
-                            <div class="icon-badge">${icon}</div>
-                            <div class="title-area">
+                            <div class="icon-box">${icon}</div>
+                            <div class="info-area">
                                 <h3>${item.name}</h3>
-                                <div class="badges-row">
-                                    <span class="badge">${item.city}</span>
-                                    <span class="badge">${item.category}</span>
-                                    ${item.specialty && item.specialty !== 'عام' ? `<span class="badge">${item.specialty}</span>` : ''}
-                                    ${isPediatric ? `<span class="badge special">👶 أطفال</span>` : ''}
+                                <div class="tags-container">
+                                    <span class="tag city">${item.city}</span>
+                                    <span class="tag">${item.category}</span>
+                                    ${item.specialty && item.specialty !== 'عام' ? `<span class="tag specialty">${item.specialty}</span>` : ''}
+                                    ${subTag ? `<span class="tag sub-specialty">${subTag}</span>` : ''}
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <p><strong>العنوان:</strong> ${item.address || 'العنوان غير متوفر'}</p>
-                            <p><strong>هاتف:</strong> ${item.phone || 'لا يوجد'}</p>
-                            <p><strong>جوال:</strong> ${item.mobile || 'لا يوجد'}</p>
+                            <p>📍 <strong>العنوان:</strong> ${item.address || 'العنوان غير متوفر'}</p>
+                            <p>📞 <strong>هاتف:</strong> ${item.phone || 'لا يوجد'}</p>
+                            <p>📱 <strong>جوال:</strong> ${item.mobile || 'لا يوجد'}</p>
                         </div>
                     </div>
-                    <div class="actions">
-                        ${contactNumber ? `<a href="tel:${contactNumber}" class="btn-call">📞 اتصال مباشر</a>` : `<span class="btn-disabled">لا يوجد رقم</span>`}
+                    <div class="card-footer">
+                        ${contactNumber ? `<a href="tel:${contactNumber}" class="btn btn-call">📞 اتصال مباشر</a>` : `<span class="btn btn-disabled">لا يوجد رقم</span>`}
                     </div>
                 </div>
             `;
