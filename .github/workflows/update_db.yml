@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Globmed.xlsx'
+  workflow_dispatch: # يتيح تشغيل الروبوت يدوياً بضغطة زر
 
 jobs:
   build:
