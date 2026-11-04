@@ -3,101 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الشبكة الطبية المتطور</title>
+    <title>دليل الشبكة الطبية المعتمد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
             --accent: #38bdf8;
-            --bg-main: #f1f5f9;
+            --success: #16a34a;
+            --bg-main: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --radius: 16px;
         }
-        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 25px; }
-        .container { max-width: 1200px; margin: auto; }
+        body { font-family: 'Cairo', system-ui, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
+        .container { max-width: 1150px; margin: auto; }
         
-        header { text-align: center; margin-bottom: 40px; }
-        header h1 { color: var(--text-main); font-size: 32px; margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
+        header { text-align: center; margin-bottom: 35px; padding-top: 15px; }
+        header h1 { color: var(--text-main); font-size: 34px; margin-bottom: 10px; font-weight: 900; }
         header p { color: var(--text-muted); font-size: 16px; margin: 0; }
         
-        .filters-container { background: white; padding: 25px; border-radius: var(--radius); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; border: 1px solid var(--border); }
-        .filter-group { display: flex; flex-direction: column; gap: 8px; }
-        .filter-group label { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        /* Search & Filters Box */
+        .search-hero { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); padding: 30px; border-radius: var(--radius); box-shadow: 0 15px 30px -10px rgba(2, 132, 199, 0.3); margin-bottom: 30px; color: white; }
+        .search-hero h3 { margin-top: 0; margin-bottom: 15px; font-size: 20px; font-weight: 700; text-align: center; }
         
-        input, select { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; font-size: 14px; background: #f8fafc; outline: none; transition: all 0.2s ease; color: var(--text-main); }
-        input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+        .filter-group { display: flex; flex-direction: column; gap: 6px; }
+        .filter-group label { font-size: 13px; font-weight: 700; color: #e0f2fe; }
         
-        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 15px; color: var(--text-muted); font-weight: 600; padding: 0 5px; }
+        input, select { width: 100%; padding: 14px 16px; border: none; border-radius: 12px; box-sizing: border-box; font-size: 15px; font-family: 'Cairo', sans-serif; background: #ffffff; outline: none; transition: all 0.2s ease; color: var(--text-main); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        input:focus, select:focus { box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.4); }
         
+        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 16px; color: var(--text-muted); font-weight: 700; padding: 0 5px; }
+        
+        /* Cards Grid */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--primary); }
         
-        .card-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
-        .icon-box { width: 52px; height: 52px; border-radius: 14px; background: #eff6ff; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .card-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+        .icon-box { width: 54px; height: 54px; border-radius: 14px; background: #f0fdf4; color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .info-area { flex: 1; }
-        .info-area h3 { margin: 0 0 8px; font-size: 18px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
+        .info-area h3 { margin: 0 0 8px; font-size: 19px; color: var(--text-main); font-weight: 800; line-height: 1.4; }
         
         .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-        .tag { font-size: 11.5px; background: #f1f5f9; color: var(--text-muted); padding: 4px 10px; border-radius: 6px; font-weight: 600; }
-        .tag.city { background: #e2e8f0; color: #334155; }
+        .tag { font-size: 12px; background: #f1f5f9; color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-weight: 700; }
+        .tag.city { background: #e2e8f0; color: #1e293b; }
         .tag.category { background: #e0f2fe; color: #0369a1; }
         .tag.specialty { background: #fef3c7; color: #92400e; }
         .tag.sub-specialty { background: #dcfce7; color: #166534; }
         
-        .card-body { font-size: 14px; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; }
-        .card-body p { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .card-body { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; }
+        .card-body p { margin: 6px 0; display: flex; align-items: center; gap: 8px; font-weight: 600; }
         
         .card-footer { margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--border); display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-size: 14px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-call { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-        .btn-call:hover { background: #dcfce7; }
-        .btn-disabled { background: #f8fafc; color: #cbd5e1; border: 1px solid var(--border); cursor: not-allowed; }
+        .btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-size: 15px; font-weight: 700; text-decoration: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Cairo', sans-serif; }
+        .btn-call { background: #16a34a; color: white; box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25); }
+        .btn-call:hover { background: #15803d; transform: translateY(-1px); }
+        .btn-disabled { background: #f1f5f9; color: #94a3b8; border: 1px solid var(--border); cursor: not-allowed; }
         
-        .load-more { display: block; width: 100%; max-width: 300px; margin: 40px auto; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); }
+        .load-more { display: block; width: 100%; max-width: 320px; margin: 40px auto; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3); font-family: 'Cairo', sans-serif; }
         .load-more:hover { background: var(--primary-dark); transform: translateY(-1px); }
         
-        .no-results { text-align: center; padding: 60px; color: var(--text-muted); background: white; border-radius: var(--radius); grid-column: 1 / -1; border: 1px solid var(--border); font-size: 16px; }
+        .no-results { text-align: center; padding: 60px; color: var(--text-muted); background: white; border-radius: var(--radius); grid-column: 1 / -1; border: 1px solid var(--border); font-size: 18px; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>دليل الشبكة الطبية المتطور</h1>
-        <p>ابحث بكل سهولة عن الأطباء، المستشفيات، الصيدليات والمراكز الطبية مع تصفية دقيقة حسب التخصصات</p>
+        <h1>دليل الشبكة الطبية المعتمد</h1>
+        <p>ابحث بسهولة تامة عن الأطباء، المستشفيات، الصيدليات، والمراكز الطبية في جميع المدن</p>
     </header>
     
-    <div class="filters-container">
-        <div class="filter-group">
-            <label>المدينة</label>
-            <select id="cityFilter" onchange="handleFilterChange()">
-                <option value="">جميع المدن</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>التصنيف الرئيسي</label>
-            <select id="categoryFilter" onchange="handleFilterChange()">
-                <option value="">جميع التصنيفات</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>التخصص الفرعي</label>
-            <select id="specialtyFilter" onchange="handleFilterChange()">
-                <option value="">جميع التخصصات</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>بحث حر بالاسم / العنوان</label>
-            <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="اكتب للبحث الفوري...">
+    <div class="search-hero">
+        <h3>🔍 ابحث واعثر على طلبك فوراً</h3>
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>اختر المدينة</label>
+                <select id="cityFilter" onchange="handleFilterChange()">
+                    <option value="">جميع المدن</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>التصنيف الرئيسي</label>
+                <select id="categoryFilter" onchange="handleFilterChange()">
+                    <option value="">جميع التصنيفات</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>التخصص الفرعي / القسم</label>
+                <select id="specialtyFilter" onchange="handleFilterChange()">
+                    <option value="">جميع التخصصات</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>بحث بالاسم أو العنوان</label>
+                <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="اكتب اسم الطبيب أو المنطقة...">
+            </div>
         </div>
     </div>
 
     <div class="results-meta">
-        <span id="resultsCount">جاري تحميل البيانات...</span>
+        <span id="resultsCount">جاري التحميل...</span>
     </div>
 
     <div id="resultsGrid" class="grid"></div>
@@ -134,7 +144,7 @@
             renderResults(true);
         })
         .catch(err => {
-            document.getElementById('resultsGrid').innerHTML = "<div class='no-results'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح عبر GitHub Actions.</div>";
+            document.getElementById('resultsGrid').innerHTML = "<div class='no-results'>عذراً، يرجى تشغيل الـ Action في GitHub لإنشاء ملف database.json لأول مرة.</div>";
         });
 
     function populateDropdowns() {
@@ -194,26 +204,24 @@
     }
 
     function getCardMeta(category, specialty) {
-        let icon = "🏥";
+        let icon = "🩺";
         let subTag = "";
         
         const lowerCat = category.toLowerCase();
         const lowerSpec = specialty.toLowerCase();
 
-        if (lowerCat.includes('أطباء') || lowerCat.includes('طبيب') || lowerCat.includes('الاطباء')) {
-            icon = "🩺";
-        } else if (lowerCat.includes('صيدلي') || lowerCat.includes('صيدليات')) {
+        if (lowerCat.includes('صيدلي')) {
             icon = "💊";
-        } else if (lowerCat.includes('مستشفى') || lowerCat.includes('مستشفيات')) {
+        } else if (lowerCat.includes('مستشفى')) {
             icon = "🏨";
-        } else if (lowerCat.includes('مختبر') || lowerCat.includes('تحاليل')) {
+        } else if (lowerCat.includes('مختبر')) {
             icon = "🔬";
-        } else if (lowerCat.includes('بصريات') || lowerCat.includes('نظارات')) {
-            icon = "👓";
         } else if (lowerCat.includes('أشعة')) {
             icon = "🩻";
         } else if (lowerCat.includes('علاج طبيعي')) {
             icon = "💆‍♂️";
+        } else if (lowerCat.includes('معمل') || lowerCat.includes('مركز')) {
+            icon = "🏥";
         }
 
         if (lowerSpec.includes('أطفال') || lowerSpec.includes('الاطفال')) {
@@ -245,10 +253,10 @@
             displayedCount = 0;
         }
 
-        countContainer.innerHTML = `عدد النتائج المطابقة: <strong>${filteredData.length}</strong>`;
+        countContainer.innerHTML = `النتائج المتوفرة: <strong>${filteredData.length}</strong> نتيجة`;
 
         if (filteredData.length === 0) {
-            grid.innerHTML = "<div class='no-results'>لا توجد نتائج مطابقة لبحثك. جرب تغيير خيارات الفلترة.</div>";
+            grid.innerHTML = "<div class='no-results'>❌ لا توجد نتائج مطابقة لبحثك. جرب اختيار مدينة أخرى أو مسح خانة البحث.</div>";
             loadMoreBtn.style.display = "none";
             return;
         }
@@ -282,7 +290,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        ${contactNumber ? `<a href="tel:${contactNumber}" class="btn btn-call">📞 اتصال مباشر</a>` : `<span class="btn btn-disabled">لا يوجد رقم</span>`}
+                        ${contactNumber ? `<a href="tel:${contactNumber}" class="btn btn-call">📞 اتصال هاتفي مباشر</a>` : `<span class="btn btn-disabled">لا يوجد رقم هاتف</span>`}
                     </div>
                 </div>
             `;
