@@ -3,71 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الشبكة الطبية الاحترافي</title>
+    <title>دليل الشبكة الطبية المتطور</title>
     <style>
         :root {
-            --primary: #0284c7;
-            --primary-dark: #0369a1;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
             --accent: #38bdf8;
-            --bg-main: #f8fafc;
+            --bg-main: #f1f5f9;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --radius: 14px;
+            --radius: 16px;
         }
-        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: auto; }
+        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg-main); color: var(--text-main); margin: 0; padding: 25px; }
+        .container { max-width: 1200px; margin: auto; }
         
-        header { text-align: center; margin-bottom: 35px; padding-top: 10px; }
-        header h2 { color: var(--text-main); font-size: 30px; margin-bottom: 8px; font-weight: 800; letter-spacing: -0.5px; }
-        header p { color: var(--text-muted); font-size: 15px; margin: 0; }
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { color: var(--text-main); font-size: 32px; margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
+        header p { color: var(--text-muted); font-size: 16px; margin: 0; }
         
-        .filters-container { background: white; padding: 24px; border-radius: var(--radius); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; border: 1px solid var(--border); }
-        .filter-group { display: flex; flex-direction: column; gap: 6px; }
-        .filter-group label { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .filters-container { background: white; padding: 25px; border-radius: var(--radius); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; border: 1px solid var(--border); }
+        .filter-group { display: flex; flex-direction: column; gap: 8px; }
+        .filter-group label { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
         
-        input, select { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; box-sizing: border-box; font-size: 14px; background: #fdfdfd; outline: none; transition: all 0.2s ease; color: var(--text-main); }
-        input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1); }
+        input, select { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; font-size: 14px; background: #f8fafc; outline: none; transition: all 0.2s ease; color: var(--text-main); }
+        input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
         
-        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); font-weight: 600; padding: 0 5px; }
+        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 15px; color: var(--text-muted); font-weight: 600; padding: 0 5px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 22px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.25s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--accent); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 24px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08); border-color: var(--primary); }
         
-        .card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
-        .icon-box { width: 48px; height: 48px; border-radius: 12px; background: #e0f2fe; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .card-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+        .icon-box { width: 52px; height: 52px; border-radius: 14px; background: #eff6ff; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
         .info-area { flex: 1; }
-        .info-area h3 { margin: 0 0 6px; font-size: 17px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
+        .info-area h3 { margin: 0 0 8px; font-size: 18px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
         
-        .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-        .tag { font-size: 11px; background: #f1f5f9; color: var(--text-muted); padding: 3px 9px; border-radius: 6px; font-weight: 600; }
+        .tags-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .tag { font-size: 11.5px; background: #f1f5f9; color: var(--text-muted); padding: 4px 10px; border-radius: 6px; font-weight: 600; }
         .tag.city { background: #e2e8f0; color: #334155; }
-        .tag.specialty { background: #e0f2fe; color: var(--primary-dark); }
+        .tag.category { background: #e0f2fe; color: #0369a1; }
+        .tag.specialty { background: #fef3c7; color: #92400e; }
         .tag.sub-specialty { background: #dcfce7; color: #166534; }
         
-        .card-body { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 4px; }
-        .card-body p { margin: 4px 0; display: flex; align-items: center; gap: 6px; }
+        .card-body { font-size: 14px; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; }
+        .card-body p { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
         
-        .card-footer { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--border); display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-size: 13px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .card-footer { margin-top: 20px; padding-top: 14px; border-top: 1px dashed var(--border); display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-size: 14px; font-weight: 600; text-decoration: none; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-call { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
         .btn-call:hover { background: #dcfce7; }
         .btn-disabled { background: #f8fafc; color: #cbd5e1; border: 1px solid var(--border); cursor: not-allowed; }
         
-        .load-more { display: block; width: 100%; max-width: 280px; margin: 40px auto; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2); }
+        .load-more { display: block; width: 100%; max-width: 300px; margin: 40px auto; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); }
         .load-more:hover { background: var(--primary-dark); transform: translateY(-1px); }
         
-        .no-results { text-align: center; padding: 50px; color: var(--text-muted); background: white; border-radius: var(--radius); grid-column: 1 / -1; border: 1px solid var(--border); font-size: 16px; }
+        .no-results { text-align: center; padding: 60px; color: var(--text-muted); background: white; border-radius: var(--radius); grid-column: 1 / -1; border: 1px solid var(--border); font-size: 16px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h2>دليل الشبكة الطبية</h2>
-        <p>منصة بحث ذكية وسريعة للوصول إلى مقدمي الخدمات الطبية</p>
+        <h1>دليل الشبكة الطبية المتطور</h1>
+        <p>ابحث بكل سهولة عن الأطباء، المستشفيات، الصيدليات والمراكز الطبية مع تصفية دقيقة حسب التخصصات</p>
     </header>
     
     <div class="filters-container">
@@ -90,8 +91,8 @@
             </select>
         </div>
         <div class="filter-group">
-            <label>بحث حر</label>
-            <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="ابحث بالاسم أو العنوان...">
+            <label>بحث حر بالاسم / العنوان</label>
+            <input type="text" id="searchInput" oninput="handleSearchInput()" placeholder="اكتب للبحث الفوري...">
         </div>
     </div>
 
@@ -133,7 +134,7 @@
             renderResults(true);
         })
         .catch(err => {
-            document.getElementById('resultsGrid').innerHTML = "<div class='no-results'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح.</div>";
+            document.getElementById('resultsGrid').innerHTML = "<div class='no-results'>عذراً، يرجى التأكد من توليد ملف database.json بنجاح عبر GitHub Actions.</div>";
         });
 
     function populateDropdowns() {
@@ -150,7 +151,7 @@
         const select = document.getElementById(elementId);
         select.innerHTML = `<option value="">${defaultText}</option>`;
         items.forEach(item => {
-            if(item && item !== 'عام') {
+            if(item && item !== 'عام' && item !== '') {
                 let opt = document.createElement('option');
                 opt.value = item;
                 opt.innerHTML = item;
@@ -209,6 +210,10 @@
             icon = "🔬";
         } else if (lowerCat.includes('بصريات') || lowerCat.includes('نظارات')) {
             icon = "👓";
+        } else if (lowerCat.includes('أشعة')) {
+            icon = "🩻";
+        } else if (lowerCat.includes('علاج طبيعي')) {
+            icon = "💆‍♂️";
         }
 
         if (lowerSpec.includes('أطفال') || lowerSpec.includes('الاطفال')) {
@@ -223,6 +228,8 @@
             subTag = "❤️ قلب";
         } else if (lowerSpec.includes('جراح')) {
             subTag = "🔪 جراحة";
+        } else if (lowerSpec.includes('باطني')) {
+            subTag = "🫁 باطني";
         }
 
         return { icon, subTag };
@@ -241,7 +248,7 @@
         countContainer.innerHTML = `عدد النتائج المطابقة: <strong>${filteredData.length}</strong>`;
 
         if (filteredData.length === 0) {
-            grid.innerHTML = "<div class='no-results'>لا توجد نتائج مطابقة لبحثك.</div>";
+            grid.innerHTML = "<div class='no-results'>لا توجد نتائج مطابقة لبحثك. جرب تغيير خيارات الفلترة.</div>";
             loadMoreBtn.style.display = "none";
             return;
         }
@@ -261,15 +268,15 @@
                             <div class="info-area">
                                 <h3>${item.name}</h3>
                                 <div class="tags-container">
-                                    <span class="tag city">${item.city}</span>
-                                    <span class="tag">${item.category}</span>
+                                    <span class="tag city">📍 ${item.city}</span>
+                                    <span class="tag category">${item.category}</span>
                                     ${item.specialty && item.specialty !== item.category ? `<span class="tag specialty">${item.specialty}</span>` : ''}
                                     ${subTag ? `<span class="tag sub-specialty">${subTag}</span>` : ''}
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>📍 <strong>العنوان:</strong> ${item.address || 'العنوان غير متوفر'}</p>
+                            <p>🏢 <strong>العنوان:</strong> ${item.address || 'العنوان غير متوفر'}</p>
                             <p>📞 <strong>هاتف:</strong> ${item.phone || 'لا يوجد'}</p>
                             <p>📱 <strong>جوال:</strong> ${item.mobile || 'لا يوجد'}</p>
                         </div>
